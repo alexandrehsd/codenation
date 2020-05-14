@@ -39,14 +39,27 @@ def add_default_tax(records):
 
     return(records)
 
+def add_call_price(records):
+    """
+    Calculate the total cost of the call
+    """
+
+    for record in records:
+        call_minutes = record['diff_in_sec'] // 60
+        record['total'] = 0.36 + call_minutes*record['tax_per_min']
+
+    return(records)
+
 def classify_by_phone_number(records):
     records = add_diff_in_sec(records)
     records = add_default_tax(records)
-    
-    return(records)    
-    
+    records = add_call_price(records)
 
-# print(classify_by_phone_number(records))
+    output = []
+    for record in records:
+        output.append({'source': record['source'], 'total': record['total']})
+
+    return(output)
 
 
 
