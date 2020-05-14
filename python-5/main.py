@@ -16,7 +16,11 @@ records = [
 ]
 
 
-def get_diff_in_sec(records):
+def add_diff_in_sec(records):
+    """
+    Add time difference and convert time stamps to datetime objects
+    """
+
     for record in records:
         record['end'] = datetime.fromtimestamp(record['end'])
         record['start'] = datetime.fromtimestamp(record['start'])
@@ -25,8 +29,26 @@ def get_diff_in_sec(records):
 
     return(records)
 
+def add_default_tax(records):
+    """
+    Add tax per minute info of the call
+    """
+
+    for record in records:
+        record['tax_per_min'] = (0.09 if record['start'].hour >= 6 and record['start'].hour <= 22 else 0)
+
+    return(records)
+
 def classify_by_phone_number(records):
-    records = get_diff_in_sec(records)
+    records = add_diff_in_sec(records)
+    records = add_default_tax(records)
+    
+    return(records)    
     
 
+# print(classify_by_phone_number(records))
+
+
+
+    
 
