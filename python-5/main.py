@@ -59,7 +59,7 @@ def calc_call_price(diff_in_sec, tax_per_min):
     """
 
     call_minutes = diff_in_sec // 60
-    total = round(0.36 + call_minutes*tax_per_min, 2)
+    total = 0.36 + call_minutes*tax_per_min
 
     return(total)
 
@@ -82,6 +82,9 @@ def classify_by_phone_number(records):
                 if(call['source'] == record['source']):
                     call['total'] += call_price
 
-        results = sorted(results, key = lambda k: k['total'], reverse = True)
+    for result in results:
+        result['total'] = round(result['total'], 2)
+        
+    results = sorted(results, key = lambda k: k['total'], reverse = True)
 
     return(results)
