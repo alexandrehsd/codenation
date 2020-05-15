@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import pdb
 records = [
     {'source': '48-996355555', 'destination': '48-666666666', 'end': 1564610974, 'start': 1564610674},
     {'source': '41-885633788', 'destination': '41-886383097', 'end': 1564506121, 'start': 1564504821},
@@ -15,53 +15,73 @@ records = [
     {'source': '48-996383697', 'destination': '41-885633788', 'end': 1564627800, 'start': 1564626000}
 ]
 
-
-def add_diff_in_sec(records):
+def get_diff_in_sec(record):
     """
-    Add time difference and convert time stamps to datetime objects
+    get time difference and convert time stamps to datetime objects
+    Input: Call information (dict)
     """
 
-    for record in records:
-        record['end'] = datetime.fromtimestamp(record['end'])
-        record['start'] = datetime.fromtimestamp(record['start'])
+    end = datetime.fromtimestamp(record['end'])
+    start = datetime.fromtimestamp(record['start'])
+    diff_in_sec = (end - start).seconds
 
-        record['diff_in_sec'] = (record['end'] - record['start']).seconds
+    return(diff_in_sec)
+
+def rm_invalid(records):
+    """
+    Remove invalid calls which are calls that starts in a day and end in the next one
+    """
+
+    for index, record in enumerate(records):
+        start_day = datetime.fromtimestamp(record['start']).day
+        end_day = datetime.fromtimestamp(record['end']).day
+
+        if(start_day != end_day):
+            records[index].pop()
 
     return(records)
 
-def add_default_tax(records):
+def calc_default_tax(record):
     """
-    Add tax per minute info of the call
+    Calculate tax per minute info of the call
     """
 
-    for record in records:
-        record['tax_per_min'] = (0.09 if record['start'].hour >= 6 and record['start'].hour <= 22 else 0)
+    start_dttime = datetime.fromtimestamp(record['start']).hour
+    end_dttime = datetime.fromtimestamp(record['end']).hour
 
-    return(records)
+    tax_per_min = (0.09 if (start_dttime >= 6) and (start_dttime <= 22) else 0)
 
-def add_call_price(records):
+    return(tax_per_min)
+
+def calc_call_price(diff_in_sec, tax_per_min):
     """
     Calculate the total cost of the call
     """
 
-    for record in records:
-        call_minutes = record['diff_in_sec'] // 60
-        record['total'] = 0.36 + call_minutes*record['tax_per_min']
+    call_minutes = diff_in_sec // 60
+    total = round(0.36 + call_minutes*tax_per_min, 2)
 
-    return(records)
+    return(total)
 
 def classify_by_phone_number(records):
-    records = add_diff_in_sec(records)
-    records = add_default_tax(records)
-    records = add_call_price(records)
+    records = rm_invalid(records)
 
-    output = []
+    results = []
     for record in records:
-        output.append({'source': record['source'], 'total': record['total']})
+        diff_in_sec = get_diff_in_sec(record)
+        tax_per_min = calc_default_tax(record)
 
-    return(output)
+        call_price = calc_call_price(diff_in_sec, tax_per_min)
 
+        # If there is no register of the source number in the calls list
+        # then append a record for that source in the results list
+        if not any(record['source'] in result['source'] for result in results):
+            results.append({'source': record['source'], 'total': call_price})
+        else:
+            for call in results:
+                if(call['source'] == record['source']):
+                    call['total'] += call_price
 
+        results = sorted(results, key = lambda k: k['total'], reverse = True)
 
-    
-
+    return(results)
