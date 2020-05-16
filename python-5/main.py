@@ -1,5 +1,5 @@
 from datetime import datetime
-import pdb
+
 records = [
     {'source': '48-996355555', 'destination': '48-666666666', 'end': 1564610974, 'start': 1564610674},
     {'source': '41-885633788', 'destination': '41-886383097', 'end': 1564506121, 'start': 1564504821},
@@ -64,8 +64,14 @@ def calc_call_price(diff_in_sec, tax_per_min):
     return(total)
 
 def classify_by_phone_number(records):
+    """
+    Calculate the phone bills of all customers in records 
+    """
+
+    # Remove invalid calls
     records = rm_invalid(records)
 
+    # Calculate the price of each call and aggregate it by customer (source)
     results = []
     for record in records:
         diff_in_sec = get_diff_in_sec(record)
@@ -73,18 +79,21 @@ def classify_by_phone_number(records):
 
         call_price = calc_call_price(diff_in_sec, tax_per_min)
 
-        # If there is no register of the source number in the calls list
-        # then append a record for that source in the results list
+        # If there is no occurence of the source number in the results list
+        # then append a record for that source to it
         if not any(record['source'] in result['source'] for result in results):
             results.append({'source': record['source'], 'total': call_price})
         else:
             for call in results:
                 if(call['source'] == record['source']):
                     call['total'] += call_price
+                    break
 
+    # Round the results
     for result in results:
         result['total'] = round(result['total'], 2)
-        
+
+    # Sort the output list by the total amount of the bill
     results = sorted(results, key = lambda k: k['total'], reverse = True)
 
     return(results)
