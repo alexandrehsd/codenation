@@ -24,7 +24,7 @@ class Employee:
 
     def calc_bonus(self):
         return self.salary * 0.15
-        
+
 class Manager(Employee):
     def __init__(self, code, name, salary):
         super().__init__(code, name, salary)
@@ -34,7 +34,7 @@ class Manager(Employee):
         return self._departament
 
     def set_department(self, dept_name):
-        self._departament.name = dept_name
+        self._departament.set_name(dept_name)
 
 class Seller(Manager):
     def __init__(self, code, name, salary):
@@ -46,10 +46,7 @@ class Seller(Manager):
         return self._sales
 
     def put_sales(self, sale):
-        return self._sales + sale
+        self._sales += sale
 
-    def get_department(self):
-        return self._departament.name
-
-    def set_department(self, dept_name):
-        self._departament.set_name(dept_name)
+    def calc_bonus(self):
+        return self._sales * 0.15
