@@ -6,6 +6,9 @@ class Department:
     def set_name(self, name):
         self.name = name
 
+    def get_name(self):
+        return self.name
+
 class Employee:
     def __new__(cls, code, name, salary):
         instance = super(Employee, cls).__new__(cls)
@@ -26,20 +29,19 @@ class Employee:
         return self.salary * 0.15
 
 class Manager(Employee):
-    def __init__(self, code, name, salary):
+    def __init__(self, code, name, salary, department = Department('managers', 1)):
         super().__init__(code, name, salary)
-        self._departament = Department('managers', 1)
+        self.__department = department
 
-    def get_department(self):
-        return self._departament
+    def get_departament(self):
+        return self.__department.get_name()
 
     def set_department(self, dept_name):
-        self._departament.set_name(dept_name)
+        self.__department.set_name(dept_name)
 
 class Seller(Manager):
     def __init__(self, code, name, salary):
-        super().__init__(code, name, salary)
-        self._departament = Department('sellers', 2)
+        super().__init__(code, name, salary, department = Department('sellers', 2))        
         self._sales = 0
 
     def get_sales(self):
