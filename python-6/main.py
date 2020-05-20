@@ -12,7 +12,7 @@ class Department:
 class Employee:
     def __new__(cls, code, name, salary):
         instance = super(Employee, cls).__new__(cls)
-        if isinstance(instance, Manager) or isinstance(instance, Seller):
+        if not (not isinstance(instance, Manager) and not isinstance(instance, Seller)):
             return instance
         else:
             raise TypeError("You cannot instantiate an object of class Employee directly")
