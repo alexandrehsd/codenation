@@ -20,10 +20,7 @@ def get_diff_in_sec(record):
     get time difference and convert time stamps to datetime objects
     Input: Call information (dict)
     """
-
-    end = datetime.fromtimestamp(record['end'])
-    start = datetime.fromtimestamp(record['start'])
-    diff_in_sec = (end - start).seconds
+    diff_in_sec = record['end'] - record['start']
 
     return(diff_in_sec)
 
