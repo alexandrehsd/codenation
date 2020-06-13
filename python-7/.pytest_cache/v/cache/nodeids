@@ -1,0 +1,12 @@
+[
+  "test_main.py::test_convert_celsius_to_fahrenheit_expected_inputs[62]",
+  "test_main.py::test_convert_celsius_to_fahrenheit_expected_inputs[80]",
+  "test_main.py::test_convert_celsius_to_fahrenheit_expected_inputs[40]",
+  "test_main.py::test_convert_celsius_to_fahrenheit_wrong_type_inputs[a]",
+  "test_main.py::test_convert_celsius_to_fahrenheit_wrong_type_inputs[None]",
+  "test_main.py::test_get_temperature_by_lat_lng",
+  "test_main.py::test_get_weather_data",
+  "test_main.py::test_get_weather_data_correct_inputs",
+  "test_main.py::test_get_weather_data_correct_url",
+  "test_main.py::test_get_weather_data_url_not_found"
+]

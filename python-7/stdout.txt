@@ -1,0 +1,23 @@
+============================= test session starts ==============================
+platform linux -- Python 3.7.6, pytest-5.4.2, py-1.8.1, pluggy-0.13.1 -- /home/alexandre/anaconda3/envs/emailer/bin/python
+cachedir: .pytest_cache
+rootdir: /home/alexandre/codenation/python-7
+collecting ... collected 7 items
+
+test_main.py::test_convert_celsius_to_fahrenheit_expected_inputs[62] PASSED [ 14%]
+test_main.py::test_convert_celsius_to_fahrenheit_expected_inputs[80] PASSED [ 28%]
+test_main.py::test_convert_celsius_to_fahrenheit_expected_inputs[40] PASSED [ 42%]
+test_main.py::test_convert_celsius_to_fahrenheit_wrong_type_inputs[a] PASSED [ 57%]
+test_main.py::test_convert_celsius_to_fahrenheit_wrong_type_inputs[None] PASSED [ 71%]
+test_main.py::test_get_weather_data_correct_url PASSED                   [ 85%]
+test_main.py::test_get_weather_data_url_not_found PASSED                 [100%]
+
+=============================== warnings summary ===============================
+/home/alexandre/anaconda3/envs/emailer/lib/python3.7/site-packages/_pytest/junitxml.py:417
+  /home/alexandre/anaconda3/envs/emailer/lib/python3.7/site-packages/_pytest/junitxml.py:417: PytestDeprecationWarning: The 'junit_family' default value will change to 'xunit2' in pytest 6.0.
+  Add 'junit_family=xunit1' to your pytest.ini file to keep the current format in future versions of pytest and silence this warning.
+    _issue_warning_captured(deprecated.JUNIT_XML_DEFAULT_FAMILY, config.hook, 2)
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+------ generated xml file: /home/alexandre/codenation/python-7/output.xml ------
+========================= 7 passed, 1 warning in 0.97s =========================
