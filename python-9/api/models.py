@@ -18,7 +18,7 @@ class Agent(models.Model):
 class User(models.Model):
     name = models.CharField('name', max_length = 50)
     last_login = models.DateField('last_login', auto_now = True)
-    email = models.CharField('Email', max_length = 254, validators = [validators.EmailValidator()])
+    email = models.EmailField('Email', max_length = 254)
     password = models.CharField('Password', max_length = 50, validators = [validators.MinLengthValidator(8)])
 
 class Group(models.Model):
