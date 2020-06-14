@@ -1,9 +1,12 @@
 from django.db import models
 from django.core import validators
+from django.core.exceptions import ValidationError
 
 def validator_level(level):
     if level not in ['CRITICAL', 'DEBUG', 'ERROR', 'WARNING', 'INFO']:
-        raise Exception ('Level not allowed.')
+        raise ValidationError(
+        _('%(level) is not allowed'), params = {'level': level},
+    )
 
 class Agent(models.Model):
     name = models.CharField('name', max_length = 50)
